@@ -77,7 +77,7 @@ Input: domain keyword (e.g., "LLM inference optimization")
 ┌──────────────────────────────────────────────┐
 │ 1. Discover                                  │
 │    Multi-dimensional search → cross-validate │
-│    Human-in-the-loop: confirm dimensions      │
+│    Human-in-the-loop: confirm dimensions     │
 │    Output: repos.json                        │
 └──────────────────────────────────────────────┘
   │
