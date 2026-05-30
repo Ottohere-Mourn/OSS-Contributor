@@ -168,7 +168,7 @@ Fixes #{issue_number}
 
 ---
 
-🤖 Generated with [OSS-Contributor](https://github.com/user/oss-contributor), a Claude Code Skill for systematic open-source contribution. Human review applied before submission.
+🤖 Generated with [OSS-Contributor](https://github.com/Ottohere-Mourn/OSS-Contributor), a Claude Code Skill for systematic open-source contribution. Human review applied before submission.
 EOF
 )"
 ```

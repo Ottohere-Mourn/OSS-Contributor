@@ -40,7 +40,7 @@ gh auth status
 
 ```bash
 # Clone and install as a Claude Code skill
-git clone https://github.com/<your-username>/oss-contributor.git
+git clone https://github.com/Ottohere-Mourn/OSS-Contributor.git
 cp -r oss-contributor/.claude/skills/oss-contributor ~/.claude/skills/
 
 # Edit preferences (optional)
@@ -151,7 +151,7 @@ defaults:
 
 profile:
   name: "Your Name"
-  github_username: "your-handle"
+  github_username: "Ottohere-Mourn"
 
 search:
   max_pages: 3
