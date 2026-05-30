@@ -1,31 +1,25 @@
 # OSS Contribution Report — {domain}
 
-> **Date**: {date} · **Domain**: {domain} · **Top-K**: {topk} · **Types**: {types} · **Min Stars**: {min_stars}
+> **Date**: {date} · **Session**: {session_id} · **Parameters**: topk={topk}, types={types}, min_stars={min_stars}–{max_stars}
 
 ---
 
-## 1. Discovery Summary
+## 1. Discovery at a Glance
 
 | Metric | Value |
 |--------|-------|
 | Repos scanned | {total_scanned} |
-| Repos deep-evaluated | {topk} |
-| Final selections | {selected_count} |
+| Deep-evaluated | {topk} |
+| Selected | {selected_count} |
 | PRs submitted | {submitted_count} |
 
-### Repos Evaluated
-
-| # | Repository | Stars | Language | Friendliness | Good First Issues | Decision |
-|---|-----------|-------|----------|-------------|-------------------|----------|
-{for each repo in repos.json top-k}
-
-### Why We Chose {selected_repo}
-
-{2-3 sentences: what stood out about this repo — active maintainer? Clear issues? Low setup friction?}
+| # | Repository | Stars | Friendliness | Why Chosen / Passed |
+|---|-----------|-------|-------------|---------------------|
+{for each repo in top-k}
 
 ---
 
-## 2. Contributions Made
+## 2. Contributions
 
 {for each PR in pr-links.json}
 
@@ -33,27 +27,44 @@
 
 | | |
 |---|---|
-| **Repository** | [{full_name}](https://github.com/{full_name}) |
-| **Issue** | [#{number}]({url}) — {title} |
-| **Type** | {type} |
-| **Difficulty** | {difficulty} |
-| **Estimated vs Actual** | {estimated_hours} estimated / {actual_hours} actual |
-| **PR Link** | [{pr_url}]({pr_url}) |
-| **Status** | {status} |
+| **Repo** | [{full_name}](https://github.com/{full_name}) |
+| **Issue** | [#{number}]({url}) |
+| **Type** | {type} · **Difficulty**: {difficulty} · **Time**: {estimated_hours} |
+| **PR** | [{pr_url}]({pr_url}) · **Status**: {status} |
 
-#### Technical Approach
+#### What I Did
 
-{2-3 sentences on WHY this approach was chosen. What alternatives were considered? What constraint drove the decision?}
+{2-3 sentences: what was changed and why. Be specific about the root cause if it's a bugfix.}
 
-#### Changes Made
+#### Codebase Context
+
+{What part of the codebase did this touch? Describe the relevant module/ subsystem architecture in 3-5 sentences — enough to show an interviewer you understand how the code fits together. Mention any design patterns, conventions, or architectural decisions you observed.}
+
+#### Interview Q&A
+
+{3-5 anticipated interview questions about this PR, each with a prepared answer. Be honest about what you know and what you'd need to study further.}
+
+**Q1: Why did you choose this approach over alternatives?**
+
+{Answer}
+
+**Q2: What was the hardest part of this contribution?**
+
+{Answer}
+
+**Q3: If you had to extend this further, how would you do it?**
+
+{Answer}
+
+**Q4: What does this codebase do differently from similar projects in this space?**
+
+{Answer — skip if not applicable or you don't have a confident answer}
+
+#### Changes
 
 | File | Change |
 |------|--------|
 | `{file_path}` | {brief description} |
-
-#### Lessons Learned
-
-{1-2 honest sentences. Was this harder or easier than expected? Any surprises about the codebase or process?}
 
 {/for}
 
@@ -61,36 +72,50 @@
 
 ## 3. Failed Attempts
 
-{if any PRs with status "failed"}
+{if any}
 
-| Repository | Issue | Failure Reason |
-|-----------|-------|----------------|
-| {full_name} | #{number} | {failure_reason} |
+| Repo | Issue | Why It Failed | What I Learned |
+|------|-------|---------------|----------------|
+| {full_name} | #{number} | {failure_reason} | {takeaway} |
 
 {/if}
 
 ---
 
-## 4. Key Insights
+## 4. Domain Knowledge Map
 
-### Contribution Patterns in {domain}
+{This section synthesizes what you learned about {domain} from reading real production code across all the repos you touched. This is the "big picture" an interviewer wants to hear.}
 
-{2-3 observations about the domain's contribution culture}
+### Common Patterns in {domain}
 
-- **Common PR types that get merged**: {observation}
-- **Maintainer responsiveness**: {observation}
-- **Setup friction points**: {observation}
+{2-3 architectural patterns or design conventions you observed across repos. Example: "Most VLA frameworks use a shared encoder-decoder pattern where the vision encoder is frozen and the action decoder is fine-tuned."}
 
-### Personal Takeaways
+### Surprising Findings
 
-{2-3 reflections for future contribution sessions}
+{1-2 things that were different from what you expected before reading the code. Example: "I expected X but found Y — the community standard is actually Z because of performance constraints A and B."}
 
-- **What worked well**: {reflection}
-- **What to do differently**: {reflection}
+### Technologies & Concepts Demonstrated
+
+{Checklist of specific technologies, libraries, or concepts you touched — useful for resume bullet points}
+
+- [ ] {tech/concept} — via {PR or repo}
+- [ ] {tech/concept} — via {PR or repo}
 
 ---
 
-## 5. PR Links
+## 5. Self-Assessment
+
+### Strengths Demonstrated
+
+{2-3 bullet points: what does this contribution session prove you can do?}
+
+### Knowledge Gaps
+
+{1-2 honest gaps — if an interviewer asks about X, you'd need to study more. Better to know your limits than to get caught off guard.}
+
+---
+
+## 6. PR Links
 
 {for each submitted PR}
 
@@ -100,4 +125,4 @@
 
 ---
 
-*Generated by [OSS-Contributor](https://github.com/Ottohere-Mourn/OSS-Contributor) on {date} · Session ID: {session_id}*
+*Generated by [OSS-Contributor](https://github.com/Ottohere-Mourn/OSS-Contributor) on {date}*

@@ -188,6 +188,8 @@ Return a **single JSON object** — no markdown, no explanation, just the JSON:
   "status": "submitted",
   "failure_reason": null,
   "lessons_learned": "e.g. The test suite requires Docker; pre-commit hooks run black and isort automatically",
+  "codebase_context": "e.g. The attention module lives in src/models/attention/ and uses a registry pattern — all attention implementations inherit from BaseAttention and are auto-discovered via @register_attention decorator. The forward() signature is standardized across all implementations. Tests use pytest parametrize extensively.",
+  "alternative_approaches_considered": "e.g. Considered using torch.einsum instead of explicit matmul for readability, but the project explicitly avoids einsum for TorchScript compatibility per CONTRIBUTING.md",
   "changes": [
     {"file": "src/module/file.py", "change": "Fixed typo in docstring: 'recieve' → 'receive'"}
   ]
@@ -203,7 +205,9 @@ On failure:
   "pr_url": null,
   "status": "failed",
   "failure_reason": "Test suite fails after 5 fix attempts. Error: AttributeError in test_auth.py — likely pre-existing.",
-  "lessons_learned": "e.g. The project uses an uncommon test runner (tox + nox); setup requires Python 3.10 specifically"
+  "lessons_learned": "e.g. The project uses an uncommon test runner (tox + nox); setup requires Python 3.10 specifically",
+  "codebase_context": "e.g. Attempted to fix a bug in the auth middleware. The project uses a layered middleware stack (WSGI-style) with custom error propagation. The bug appears to be in how exceptions are caught and re-raised across layer boundaries.",
+  "alternative_approaches_considered": null
 }
 ```
 
