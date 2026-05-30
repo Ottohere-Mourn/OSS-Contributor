@@ -117,13 +117,13 @@ Calculate the project's merge health:
 
 ```bash
 # Merged PRs in last 90 days
-gh api "search/issues?q=repo:{full_name}+type:pr+is:merged+merged:>=2026-03-01" --jq '.total_count'
+gh api "search/issues?q=repo:{full_name}+type:pr+is:merged+merged:>=${90_days_ago}" --jq '.total_count'
 
 # Open/unmerged PRs created in last 90 days
-gh api "search/issues?q=repo:{full_name}+type:pr+is:unmerged+created:>=2026-03-01" --jq '.total_count'
+gh api "search/issues?q=repo:{full_name}+type:pr+is:unmerged+created:>=${90_days_ago}" --jq '.total_count'
 
 # Average PR lifetime (sample recent 10 merged PRs)
-gh api "search/issues?q=repo:{full_name}+type:pr+is:merged+merged:>=2026-03-01&sort=updated&order=desc&per_page=10" \
+gh api "search/issues?q=repo:{full_name}+type:pr+is:merged+merged:>=${90_days_ago}&sort=updated&order=desc&per_page=10" \
   --jq '.items[] | {number, created_at, closed_at}'
 ```
 

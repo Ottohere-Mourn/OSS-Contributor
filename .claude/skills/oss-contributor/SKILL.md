@@ -107,10 +107,12 @@ Options:
 ### 0.5 Create Working Directory
 
 ```bash
-mkdir -p .oss-contributor/{$session_id}
+session_id=$(date +%Y%m%d-%H%M%S)
+workdir=".oss-contributor/$session_id"
+mkdir -p "$workdir"
 ```
 
-All intermediate artifacts (repos.json, opportunities.md, selection.json, pr-links.json, contribution-report.md) go into this directory. `$session_id` is `$(date +%Y%m%d-%H%M%S)`.
+All intermediate artifacts (repos.json, opportunities.md, selection.json, pr-links.json, contribution-report.md) go into `$workdir`.
 
 ---
 

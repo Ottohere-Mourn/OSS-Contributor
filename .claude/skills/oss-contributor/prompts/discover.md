@@ -56,7 +56,7 @@ gh api repos/:owner/:repo/contents/SETUP.md --jq '.name' 2>/dev/null
 gh api "search/issues?q=repo::{owner}/{repo}+label:good-first-issue,help-wanted+state:open+type:issue" --jq '.total_count'
 
 # Recent merge activity (30 days)
-gh api "search/issues?q=repo::{owner}/{repo}+type:pr+is:merged+merged:>=2026-04-30" --jq '.total_count'
+gh api "search/issues?q=repo::{owner}/{repo}+type:pr+is:merged+merged:>=${30_days_ago}" --jq '.total_count'
 
 # Check for issue/PR templates (strong signal of structured contribution process)
 gh api repos/:owner/:repo/contents/.github/ISSUE_TEMPLATE --jq '.[].name' 2>/dev/null
