@@ -5,6 +5,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-blue)](https://code.claude.com/docs/en/skills)
 
+<p align="center">
+  <img src="assets/image.png" alt="OSS-Contributor Banner" width="100%">
+</p>
+
 ---
 
 ## Why This Exists
