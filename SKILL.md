@@ -125,13 +125,16 @@ All intermediate artifacts (repos.json, opportunities.md, selection.json, pr-lin
 
 ### 1.1 Propose Search Dimensions (Human-in-the-Loop)
 
-From the user's `<domain>`, generate 4-5 search dimensions. Do NOT just make mechanical keyword variations — think about the domain ecosystem:
+From the user's `<domain>`, generate search dimensions across these categories. Think like a researcher mapping out a field:
 
 - **Core**: the domain itself — exact and near-exact matches
-- **Upstream**: technologies the domain depends on (e.g., "LLM inference" → "CUDA kernel optimization", "model quantization", "attention mechanism")
-- **Downstream**: applications built on top of the domain (e.g., "LLM inference" → "LLM serving framework", "chatbot API gateway", "RAG pipeline")
-- **Ecosystem**: awesome lists, topic hubs, dependency graph neighbors, community-curated collections
-- **Adjacent / Competing**: alternative approaches, competing frameworks, tools in the same workflow
+- **Sub-areas (IMPORTANT)**: break the domain into 3-4 concrete sub-topics. Don't be vague — name real techniques, algorithms, and problem classes. Examples:
+  - "embodied intelligence" → VLA (vision-language-action), world-action models, sim-to-real transfer, dexterous manipulation, imitation learning for robotics, embodied navigation
+  - "LLM inference" → KV-cache optimization, speculative decoding, model quantization, continuous batching, tensor parallelism
+  - "agent architecture" → memory-augmented agents, hierarchical planning, tool-use frameworks, multi-agent coordination, ReAct pattern
+- **Upstream**: technologies the domain depends on (e.g., simulators, physics engines, perception backbones)
+- **Downstream**: applications built on top of the domain (e.g., robot platforms, industrial automation, home robotics SDKs)
+- **Ecosystem**: awesome lists, topic hubs, benchmark suites, community-curated collections
 
 Present the proposed dimensions to the user:
 
@@ -139,14 +142,15 @@ Present the proposed dimensions to the user:
 🔍 Proposed search dimensions for "{domain}":
 
   [1] Core:        "{core_keywords}"
-  [2] Upstream:    "{upstream_keywords}"
-  [3] Downstream:  "{downstream_keywords}"
-  [4] Ecosystem:   "{ecosystem_keywords}"
-  [5] Adjacent:    "{adjacent_keywords}"
+  [2] Sub-areas:   "{sub_area_1}", "{sub_area_2}", "{sub_area_3}", ...
+  [3] Upstream:    "{upstream_keywords}"
+  [4] Downstream:  "{downstream_keywords}"
+  [5] Ecosystem:   "{ecosystem_keywords}"
 
   Each dimension will be searched independently by a dedicated agent.
+  Sub-areas are where the best contribution opportunities usually hide.
 
-  Proceed with all 5, or adjust?
+  Proceed with all, or adjust?
 ```
 
 Use `AskUserQuestion` to let the user approve or adjust. Options:
@@ -158,14 +162,14 @@ multiSelect: true
 options:
   - label: "[1] Core: {core_keywords}"
     description: "Direct matches in the domain"
-  - label: "[2] Upstream: {upstream_keywords}"
+  - label: "[2] Sub-areas: {sub_areas_short}"
+    description: "Specific sub-topics — usually where the best opportunities hide. Recommended to keep."
+  - label: "[3] Upstream: {upstream_keywords}"
     description: "Technologies and libraries the domain depends on"
-  - label: "[3] Downstream: {downstream_keywords}"
+  - label: "[4] Downstream: {downstream_keywords}"
     description: "Applications and frameworks built on the domain"
-  - label: "[4] Ecosystem: {ecosystem_keywords}"
+  - label: "[5] Ecosystem: {ecosystem_keywords}"
     description: "Awesome lists, topic pages, community collections"
-  - label: "[5] Adjacent: {adjacent_keywords}"
-    description: "Competing or alternative approaches in the same space"
 ```
 
 The user can deselect dimensions they find irrelevant. Proceed only with approved dimensions.
