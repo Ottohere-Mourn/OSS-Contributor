@@ -1,0 +1,13 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary artifacts from OSS-Contributor runs
+.oss-contributor/
+
+# User config with personal info (template only in repo)
+# config.yaml is safe — it has no secrets by design

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Opportunity Evaluation Results",
+  "description": "Output of Phase 2: deep evaluation of one repository's contribution opportunities.",
+  "type": "object",
+  "properties": {
+    "repo": { "type": "string", "example": "vllm-project/vllm" },
+    "merge_rate_90d": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Fraction of PRs merged in last 90 days."
+    },
+    "avg_pr_lifetime_days": {
+      "type": "number",
+      "description": "Average days from PR open to merge for recent 10 PRs."
+    },
+    "has_contributing_md": { "type": "boolean" },
+    "contributing_notes": { "type": "string" },
+    "setup_complexity": {
+      "type": "string",
+      "enum": ["Simple", "Moderate", "Complex"]
+    },
+    "red_flags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning signals: stale project, unresponsive maintainer, CI failing, etc."
+    },
+    "opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issue_number": { "type": "integer" },
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "type": {
+            "type": "string",
+            "enum": ["docs", "test", "bugfix", "feature"]
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": ["Trivial", "Easy", "Medium", "Hard"]
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["Low", "Medium", "High"]
+          },
+          "merge_probability": {
+            "type": "string",
+            "enum": ["Low", "Medium", "High"]
+          },
+          "setup_complexity": {
+            "type": "string",
+            "enum": ["Simple", "Moderate", "Complex"]
+          },
+          "estimated_hours": {
+            "type": "string",
+            "enum": ["1-2", "2-4", "4-8", "8+"]
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Why this opportunity is worth pursuing (or not)."
+          }
+        },
+        "required": ["issue_number", "title", "type", "difficulty", "merge_probability", "rationale"]
+      }
+    }
+  },
+  "required": ["repo", "opportunities"]
+}

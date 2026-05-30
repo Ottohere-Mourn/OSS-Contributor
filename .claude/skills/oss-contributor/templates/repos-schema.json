@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Repo Discovery Results",
+  "description": "Output of Phase 1: merged and deduplicated repo candidates from parallel search agents.",
+  "type": "object",
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "The original domain keyword from the user."
+    },
+    "search_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "total_scanned": {
+      "type": "integer",
+      "description": "Total repos found across all search variations before dedup."
+    },
+    "total_after_dedup": {
+      "type": "integer",
+      "description": "Unique repos after merging parallel agent results."
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "full_name": { "type": "string", "example": "vllm-project/vllm" },
+          "stars": { "type": "integer" },
+          "forks": { "type": "integer" },
+          "language": { "type": "string" },
+          "description": { "type": "string" },
+          "open_issues": { "type": "integer" },
+          "good_first_issues": { "type": "integer" },
+          "help_wanted_issues": { "type": "integer" },
+          "merged_prs_30d": { "type": "integer" },
+          "has_contributing_md": { "type": "boolean" },
+          "last_updated": { "type": "string", "format": "date" },
+          "last_pushed": { "type": "string", "format": "date" },
+          "topics": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "contribution_friendliness": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "warning": {
+            "type": ["string", "null"],
+            "description": "Any red flag or warning about this repo."
+          }
+        },
+        "required": ["full_name", "stars", "language", "contribution_friendliness"]
+      }
+    }
+  },
+  "required": ["domain", "candidates"]
+}

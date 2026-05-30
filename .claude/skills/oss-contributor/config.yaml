@@ -1,0 +1,58 @@
+# OSS-Contributor Configuration
+# Copy and customize this file for your preferences.
+# Command-line flags override these defaults.
+
+defaults:
+  # Number of repos to deep-evaluate (Phase 2)
+  topk: 5
+
+  # Minimum GitHub stars for candidate repos
+  min_stars: 500
+
+  # Filter by programming language (empty = no filter)
+  # Examples: ["Python"], ["Rust", "Go"]
+  languages: []
+
+  # Preferred contribution types
+  # Options: docs, test, bugfix, feature
+  # "feature" is disabled by default — it's higher risk for newcomers
+  types: ["bugfix", "docs", "test"]
+
+  # Repos or orgs to always skip (Phase 1 filtering)
+  exclude_repos:
+    # - "tensorflow/tensorflow"
+    # - "kubernetes/kubernetes"
+
+# Your profile — used in PR descriptions and report headers
+profile:
+  name: ""
+  bio: ""
+  github_username: ""
+
+# Search tuning
+search:
+  # Max pages of GitHub search results to scan per keyword
+  max_pages: 3
+
+  # Sort repos by: stars, updated, forks, help-wanted-issues
+  sort_by: "stars"
+
+  # Ignore repos not updated within this many days
+  min_updated_days: 180
+
+# Execution tuning
+execution:
+  # Max TDD loop iterations before giving up
+  max_iterations: 20
+
+  # Never push without human confirmation (Phase 3 gate)
+  # This should ALWAYS be true for safety
+  require_human_gate: true
+
+# Report preferences
+report:
+  # Include detailed code diffs in the report
+  include_diffs: true
+
+  # Output path for the final report (relative to working directory)
+  output_path: ".oss-contributor"
