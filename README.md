@@ -2,8 +2,7 @@
 
 > Tell it a tech domain you care about, and it discovers the best open-source contribution opportunities, generates a reviewable report, and submits PRs — after your approval.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
-[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-blue)](https://code.claude.com/docs/en/skills)
+[MIT](./LICENSE) · [Claude Code Skill](https://code.claude.com/docs/en/skills)
 
 <p align="center">
   <img src="assets/image.png" alt="OSS-Contributor Banner" width="100%">
