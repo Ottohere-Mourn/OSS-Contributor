@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git log *)",
-      "Bash(git remote *)",
-      "Bash(python3 -c \"from PIL import Image; print\\('pillow ok'\\)\")"
-    ]
-  }
-}

@@ -11,3 +11,4 @@ Thumbs.db
 
 # User config with personal info (template only in repo)
 # config.yaml is safe — it has no secrets by design
+.claude/settings.local.json
