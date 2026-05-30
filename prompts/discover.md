@@ -13,16 +13,17 @@ You are searching ONE dimension of the broader domain. This allows you to go dee
 
 ## Budget Limits (HARD — do not exceed)
 
-- **Max repos to deep-scan (Step 3)**: 15 (if you have more candidates after filter, keep only the top 15 by stars)
-- **Max total tool calls**: 40 (if you approach this limit, stop gathering metadata and return what you have)
-- **Max search query attempts (Step 1)**: 3 (don't retry with more variations if you already have ≥ 10 candidates)
+- **Max repos to deep-scan (Step 3)**: 20 (keep top 20 by stars after filter; score the rest from search metadata only)
+- **Max repos with detailed API calls**: 10 (only the top 10 get per-repo API checks; #11-20 use search metadata + estimates)
+- **Max total tool calls**: 50 (if approaching, switch to metadata-only scoring for remaining repos)
+- **Max search query attempts (Step 1)**: 3 (stop after 3 even if no results — don't iterate endlessly)
 - **gh api calls MUST use `--cache 30s`** to avoid redundant quota consumption
 
 ## Search Methodology
 
 ### Step 1: Multi-Strategy Search Within Your Dimension
 
-Run 2-3 searches maximum. Stop early if you already have ≥ 15 candidates.
+Run 2-3 searches maximum. Stop early if you already have ≥ 25 candidates.
 
 ```bash
 # Strategy A: Direct keyword search (always run first)
@@ -35,7 +36,7 @@ gh search repos "topic:{dimension_keyword_slug}" --sort stars --limit 15 2>/dev/
 gh search repos "{broad_concept_keywords}" --sort updated --limit 15 {if language: --language {language}}
 ```
 
-**After each search**: deduplicate and count. If you have ≥ 15 unique candidates, STOP — skip remaining strategies.
+**After each search**: deduplicate and count. If you have ≥ 25 unique candidates, STOP — skip remaining strategies.
 
 ### Step 2: Filter Candidates (quick pass — don't call API per repo yet)
 
@@ -52,18 +53,18 @@ Exclude immediately (from search result metadata, no API call needed):
 - `full_name` is in the exclude list: {exclude_repos}
 - Fork or archived (visible in search result)
 
-Sort remaining by stars descending. Keep top 15. Discard the rest.
+Sort remaining by stars descending. Keep top 20. Discard the rest.
 
-### Step 3: Gather Metadata (only for top 15)
+### Step 3: Gather Metadata (only for top 20)
 
-For each of the top 15 candidates, collect metadata. **Batch calls where possible** — use a single `gh api` with `--jq` to get multiple fields at once rather than separate calls per field.
+For each of the top 20 candidates, collect basic metadata. **Only make detailed API calls for the top 10** — for repos #11-20, score from search metadata (stars, description, topics, pushed_at) plus estimated values.
 
 ```bash
 # One call per repo to get all core metadata + license
 gh api repos/:owner/:repo --jq '{full_name, stars:.stargazers_count, forks:.forks_count, open_issues:.open_issues_count, updated: .updated_at, pushed:.pushed_at, language, description, topics, archived, fork, license:.license.spdx_id}' --cache 30s
 ```
 
-Then for ALL candidates, batch the remaining checks. For CONTRIBUTING.md, issue counts, and PR activity, **check only the top 8 repos by stars** — they're most likely to score high:
+For CONTRIBUTING.md, issue counts, and PR activity, **check only the top 10 repos by stars** — they're most likely to score high:
 
 ```bash
 # Per repo (only top 8): check friendliness signals in one batch
@@ -71,9 +72,9 @@ gh api repos/:owner/:repo/contents/.github --jq '.[].name' --cache 30s 2>/dev/nu
 gh api "search/issues?q=repo::{owner}/{repo}+label:good-first-issue,help-wanted+state:open+type:issue" --jq '.total_count' --cache 30s
 ```
 
-For repos ranked #9-15: skip detailed checks, estimate scores from available metadata only (stars, description, topics, pushed_at).
+For repos ranked #11-20: skip detailed API checks, estimate scores from available metadata only (stars, description, topics, pushed_at). Flag them with `"warning": "score_estimated"` in the output.
 
-**If you hit 35 tool calls, STOP gathering and move to scoring.**
+**If you hit 45 tool calls, STOP gathering and move to scoring with what you have.**
 
 ### Step 4: Score Each Repo
 
