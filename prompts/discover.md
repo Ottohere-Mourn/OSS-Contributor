@@ -11,60 +11,69 @@ You are a repo discovery agent. Your task is to search ONE specific dimension of
 
 You are searching ONE dimension of the broader domain. This allows you to go deep rather than wide. Other agents are searching other dimensions in parallel — your results will be cross-validated later.
 
+## Budget Limits (HARD — do not exceed)
+
+- **Max repos to deep-scan (Step 3)**: 15 (if you have more candidates after filter, keep only the top 15 by stars)
+- **Max total tool calls**: 40 (if you approach this limit, stop gathering metadata and return what you have)
+- **Max search query attempts (Step 1)**: 3 (don't retry with more variations if you already have ≥ 10 candidates)
+- **gh api calls MUST use `--cache 30s`** to avoid redundant quota consumption
+
 ## Search Methodology
 
 ### Step 1: Multi-Strategy Search Within Your Dimension
 
-Don't just run one `gh search repos` query. Run 2-3 different searches:
+Run 2-3 searches maximum. Stop early if you already have ≥ 15 candidates.
 
 ```bash
-# Strategy A: Direct keyword search
+# Strategy A: Direct keyword search (always run first)
 gh search repos "{dimension_keywords}" --sort stars --limit 20 {if language: --language {language}}
 
-# Strategy B: Topic/tag search (GitHub topics often yield better matches)
+# Strategy B: Topic/tag search (only if A returned < 15 results)
 gh search repos "topic:{dimension_keyword_slug}" --sort stars --limit 15 2>/dev/null
 
-# Strategy C: Broader concept search (remove technical qualifiers, keep nouns)
+# Strategy C: Broader concept search (only if A+B combined < 15 results)
 gh search repos "{broad_concept_keywords}" --sort updated --limit 15 {if language: --language {language}}
 ```
 
-If any search returns < 3 results, skip that strategy silently.
+**After each search**: deduplicate and count. If you have ≥ 15 unique candidates, STOP — skip remaining strategies.
 
-### Step 2: Filter Candidates
+### Step 2: Filter Candidates (quick pass — don't call API per repo yet)
 
-For each candidate across all strategies, exclude if:
-- Stars < {min_stars}
-- `full_name` is in the exclude list: {exclude_repos}
-- Archived or fork (check via `gh api repos/:owner/:repo`)
-- Mirror repository
-- No license (`gh api repos/:owner/:repo --jq '.license'` returns null)
-
-### Step 3: Gather Metadata
-
-For each remaining candidate (up to 20 total across all strategies), collect:
+Filter by what's already known from search results, plus ONE quick batch check:
 
 ```bash
-# Core repo metadata
-gh api repos/:owner/:repo --jq '{full_name, stargazers_count, forks_count, open_issues_count, updated_at, pushed_at, language, description, topics, archived, fork, license: .license.spdx_id}'
-
-# Check for CONTRIBUTING.md or equivalent dev docs
-gh api repos/:owner/:repo/contents/CONTRIBUTING.md --jq '.name' 2>/dev/null
-gh api repos/:owner/:repo/contents/DEVELOPER.md --jq '.name' 2>/dev/null
-gh api repos/:owner/:repo/contents/SETUP.md --jq '.name' 2>/dev/null
-
-# Count good-first-issue and help-wanted
-gh api "search/issues?q=repo::{owner}/{repo}+label:good-first-issue,help-wanted+state:open+type:issue" --jq '.total_count'
-
-# Recent merge activity (30 days)
-gh api "search/issues?q=repo::{owner}/{repo}+type:pr+is:merged+merged:>=${30_days_ago}" --jq '.total_count'
-
-# Check for issue/PR templates (strong signal of structured contribution process)
-gh api repos/:owner/:repo/contents/.github/ISSUE_TEMPLATE --jq '.[].name' 2>/dev/null
-gh api repos/:owner/:repo/contents/.github/PULL_REQUEST_TEMPLATE.md --jq '.name' 2>/dev/null
-
-# Check CI status on default branch
-gh api repos/:owner/:repo/commits/HEAD/status --jq '.state' 2>/dev/null
+# Batch-check license and archived/fork status for ALL candidates at once
+# Use a single gh api call per 5 repos, interleaving fields
+# OR: just filter by description, topics, and stars from search results first
 ```
+
+Exclude immediately (from search result metadata, no API call needed):
+- Stars < {min_stars}
+- `full_name` is in the exclude list: {exclude_repos}
+- Fork or archived (visible in search result)
+
+Sort remaining by stars descending. Keep top 15. Discard the rest.
+
+### Step 3: Gather Metadata (only for top 15)
+
+For each of the top 15 candidates, collect metadata. **Batch calls where possible** — use a single `gh api` with `--jq` to get multiple fields at once rather than separate calls per field.
+
+```bash
+# One call per repo to get all core metadata + license
+gh api repos/:owner/:repo --jq '{full_name, stars:.stargazers_count, forks:.forks_count, open_issues:.open_issues_count, updated: .updated_at, pushed:.pushed_at, language, description, topics, archived, fork, license:.license.spdx_id}' --cache 30s
+```
+
+Then for ALL candidates, batch the remaining checks. For CONTRIBUTING.md, issue counts, and PR activity, **check only the top 8 repos by stars** — they're most likely to score high:
+
+```bash
+# Per repo (only top 8): check friendliness signals in one batch
+gh api repos/:owner/:repo/contents/.github --jq '.[].name' --cache 30s 2>/dev/null  # reveals ISSUE_TEMPLATE, PULL_REQUEST_TEMPLATE, CONTRIBUTING
+gh api "search/issues?q=repo::{owner}/{repo}+label:good-first-issue,help-wanted+state:open+type:issue" --jq '.total_count' --cache 30s
+```
+
+For repos ranked #9-15: skip detailed checks, estimate scores from available metadata only (stars, description, topics, pushed_at).
+
+**If you hit 35 tool calls, STOP gathering and move to scoring.**
 
 ### Step 4: Score Each Repo
 
