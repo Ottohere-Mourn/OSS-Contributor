@@ -6,6 +6,7 @@ You are a repo discovery agent. Your task is to search ONE specific dimension of
 
 - **Search dimension**: {dimension_label} — {dimension_keywords}
 - **Min stars**: {min_stars}
+- **Max stars**: {max_stars or "no limit"}
 - **Language filter**: {language or "none"}
 - **Exclude**: {exclude_repos}
 
@@ -50,6 +51,7 @@ Filter by what's already known from search results, plus ONE quick batch check:
 
 Exclude immediately (from search result metadata, no API call needed):
 - Stars < {min_stars}
+- Stars > {max_stars} (if max_stars is set and > 0) — mega-repos are too competitive
 - `full_name` is in the exclude list: {exclude_repos}
 - Fork or archived (visible in search result)
 
@@ -86,8 +88,10 @@ Calculate `contribution_friendliness` (0-100). Start at 0, apply positive signal
 |--------|--------|-----------|
 | Active maintainer | +30 | merged PRs in last 30 days > 10 |
 | Good-first-issue or help-wanted | +25 | combined count > 0 |
+| Sweet spot: mid-size repo | +15 | stars 500–8000 (active but not over-competitive) |
 | Recently pushed | +15 | pushed_at within 7 days |
 | Has CONTRIBUTING.md or dev docs | +15 | CONTRIBUTING.md, DEVELOPER.md, or SETUP.md exists |
+| Welcomes first-timers | +10 | recent PRs from first-time contributors were merged |
 | Issue/PR templates exist | +10 | `.github/ISSUE_TEMPLATE/` or `PULL_REQUEST_TEMPLATE.md` exists |
 | CI passing on main | +5 | commit status is "success" |
 
@@ -96,9 +100,12 @@ Calculate `contribution_friendliness` (0-100). Start at 0, apply positive signal
 | Signal | Points | Condition |
 |--------|--------|-----------|
 | Stale / abandoned | −40 | no commits in 6 months |
+| Mega-repo (stars > 15k) | −30 | PR competition extreme, reviews slow, bar very high |
+| Very popular (stars > 8k) | −20 | many contributors, hard to stand out as newcomer |
 | Unresponsive maintainer | −25 | most recent issues have no maintainer replies in 30+ days |
 | PR backlog | −25 | merge rate estimate < 30% (large number of stale open PRs vs merged) |
 | No license | −20 | license is null or missing |
+| Too many contributors | −15 | contributors > 200 (PR queue likely saturated)
 
 **Direct exclusion** (don't score, don't include):
 - Fork or mirror

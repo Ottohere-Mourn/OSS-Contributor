@@ -9,6 +9,10 @@ defaults:
   # Minimum GitHub stars for candidate repos
   min_stars: 500
 
+  # Maximum GitHub stars — filters out mega-repos (0 = no limit)
+  # Recommended: 8000 to avoid repos where newcomer PRs get lost
+  max_stars: 0
+
   # Filter by programming language (empty = no filter)
   # Examples: ["Python"], ["Rust", "Go"]
   languages: []

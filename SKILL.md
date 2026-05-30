@@ -67,6 +67,7 @@ Read `config.yaml` alongside this SKILL.md if it exists. Fall back to these defa
 ```
 topk: 5
 min_stars: 500
+max_stars: 0
 languages: []
 types: ["bugfix", "docs", "test"]
 exclude_repos: []
@@ -83,6 +84,7 @@ From `$ARGUMENTS`, extract:
 | `--type` | config or "bugfix,docs,test" | Contribution types: docs, test, bugfix, feature |
 | `--language` | config or none | Filter by programming language |
 | `--min-stars` | config or 500 | Minimum GitHub stars |
+| `--max-stars` | config or 0 (no limit) | Maximum GitHub stars — filters out mega-repos |
 | `--exclude` | config or none | Comma-separated repos/orgs to exclude |
 
 If `<domain>` is missing, output the usage and abort:
@@ -91,7 +93,7 @@ Usage: /oss-contribute <domain> [options]
        /oss-contribute followup --session <session_id>
 
 Examples:
-  /oss-contribute "LLM inference optimization"
+  /oss-contribute "LLM inference optimization" --max-stars 8000
   /oss-contribute "rust web framework" --topk 3 --type bugfix
   /oss-contribute "vector database" --language Python --min-stars 1000
   /oss-contribute followup --session 20260530-143000
@@ -101,6 +103,7 @@ Options:
   --type TYPES    Contribution types: docs,test,bugfix,feature (default: bugfix,docs,test)
   --language LANG Filter by programming language
   --min-stars N   Minimum GitHub stars (default: 500)
+  --max-stars N   Maximum GitHub stars — filter out mega-repos (default: no limit)
   --exclude REPOS Comma-separated repos/orgs to exclude
 ```
 
@@ -175,7 +178,7 @@ Read `prompts/discover.md` for each agent's instructions. Interpolate variables:
 
 - `{dimension_label}`: the dimension name (e.g., "Core", "Upstream")
 - `{dimension_keywords}`: the search query for this dimension
-- `{min_stars}`, `{language}`, `{exclude_repos}`: from config/arguments
+- `{min_stars}`, `{max_stars}`, `{language}`, `{exclude_repos}`: from config/arguments
 
 Each agent searches 2-3 different query strategies within its dimension and returns structured JSON.
 
