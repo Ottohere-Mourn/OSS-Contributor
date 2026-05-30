@@ -165,10 +165,6 @@ Fixes #{issue_number}
 
 - [ ] {Test command run and passed}
 - [ ] {Manual verification step if applicable}
-
----
-
-🤖 Generated with [OSS-Contributor](https://github.com/Ottohere-Mourn/OSS-Contributor), a Claude Code Skill for systematic open-source contribution. Human review applied before submission.
 EOF
 )"
 ```
