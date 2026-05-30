@@ -2,7 +2,8 @@
 
 > 一句话：告诉它你想在哪个技术领域做开源贡献，它帮你找到最合适的机会，生成审查报告，并在你确认后自动提交 PR。
 
-[MIT](./LICENSE) · [Claude Code Skill](https://code.claude.com/docs/en/skills)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-blue)](https://code.claude.com/docs/en/skills)
 
 <p align="center">
   <img src="assets/image.png" alt="OSS-Contributor Banner" width="100%">
@@ -209,4 +210,4 @@ execution:
 
 ## 许可证
 
-MIT
+本项目采用 MIT 许可证 —— 详见 [LICENSE](./LICENSE) 文件。简而言之：你可以自由使用、修改、分发本代码，只需保留原始版权和许可声明。

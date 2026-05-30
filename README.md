@@ -2,7 +2,8 @@
 
 > Tell it a tech domain you care about, and it discovers the best open-source contribution opportunities, generates a reviewable report, and submits PRs — after your approval.
 
-[MIT](./LICENSE) · [Claude Code Skill](https://code.claude.com/docs/en/skills)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-blue)](https://code.claude.com/docs/en/skills)
 
 <p align="center">
   <img src="assets/image.png" alt="OSS-Contributor Banner" width="100%">
@@ -209,4 +210,4 @@ The following projects informed the design of this skill:
 
 ## License
 
-MIT
+This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for the full text. In short: you can do whatever you want with this code, as long as you include the original copyright and license notice.
