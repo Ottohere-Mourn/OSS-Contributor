@@ -39,9 +39,8 @@ gh auth status
 ### 安装
 
 ```bash
-# 克隆到 Claude Code 的 skills 目录
-git clone https://github.com/Ottohere-Mourn/OSS-Contributor.git
-cp -r oss-contributor/.claude/skills/oss-contributor ~/.claude/skills/
+# 直接克隆到 Claude Code skills 目录
+git clone https://github.com/Ottohere-Mourn/OSS-Contributor.git ~/.claude/skills/oss-contributor
 
 # 编辑偏好配置（可选）
 vim ~/.claude/skills/oss-contributor/config.yaml
@@ -138,7 +137,7 @@ vim ~/.claude/skills/oss-contributor/config.yaml
 
 ## 配置
 
-编辑 `~/.claude/skills/oss-contributor/config.yaml`：
+编辑 skill 目录下的 `config.yaml`：
 
 ```yaml
 defaults:
@@ -180,7 +179,7 @@ execution:
 ## 文件结构
 
 ```
-.claude/skills/oss-contributor/
+oss-contributor/
 ├── SKILL.md                    # 主编排 Skill（6 个 Phase）
 ├── config.yaml                 # 用户偏好配置
 ├── prompts/

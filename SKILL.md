@@ -62,7 +62,7 @@ All `gh api` calls throughout the pipeline should use `--cache 30s` to reduce re
 
 ### 0.3 Load Configuration
 
-Read `.claude/skills/oss-contributor/config.yaml` if it exists. Fall back to these defaults for any missing keys:
+Read `config.yaml` alongside this SKILL.md if it exists. Fall back to these defaults for any missing keys:
 
 ```
 topk: 5

@@ -39,9 +39,8 @@ gh auth status
 ### Installation
 
 ```bash
-# Clone and install as a Claude Code skill
-git clone https://github.com/Ottohere-Mourn/OSS-Contributor.git
-cp -r oss-contributor/.claude/skills/oss-contributor ~/.claude/skills/
+# Clone directly into Claude Code skills directory
+git clone https://github.com/Ottohere-Mourn/OSS-Contributor.git ~/.claude/skills/oss-contributor
 
 # Edit preferences (optional)
 vim ~/.claude/skills/oss-contributor/config.yaml
@@ -138,7 +137,7 @@ Input: domain keyword (e.g., "LLM inference optimization")
 
 ## Configuration
 
-Edit `~/.claude/skills/oss-contributor/config.yaml`:
+Edit `config.yaml` in the skill directory:
 
 ```yaml
 defaults:
@@ -180,7 +179,7 @@ Command-line flags override config values.
 ## File Structure
 
 ```
-.claude/skills/oss-contributor/
+oss-contributor/
 ├── SKILL.md                    # Main orchestration (6 Phases)
 ├── config.yaml                 # User preferences
 ├── prompts/
