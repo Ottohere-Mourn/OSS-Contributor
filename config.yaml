@@ -51,6 +51,10 @@ execution:
 
 # Report preferences
 report:
+  # Output language for reports and UI messages
+  # Options: "English", "中文"
+  language: "English"
+
   # Include detailed code diffs in the report
   include_diffs: true
 
