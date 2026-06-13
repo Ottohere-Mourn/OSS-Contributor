@@ -175,4 +175,5 @@ Return a JSON summary:
 - NEVER comment on a PR without explicit human approval (except simple "thanks, addressed!" replies)
 - NEVER close a PR yourself
 - NEVER ping maintainers
+- **NEVER add AI watermarks**: No `🤖 Generated with Claude Code`, no `Co-Authored-By: Claude`, no AI attribution anywhere in commits, PR comments, or descriptions
 - If unsure about feedback interpretation, escalate to human rather than guessing
